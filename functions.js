@@ -1384,3 +1384,85 @@ function mouse(
 /* Usage:
 mouse(0, 0, "path/to/image.png", "mouse", "center", 999);
 */
+function appendOverlayAndCustomAlertDivs() {
+	const overlay = document.createElement("div");
+	overlay.id = "custom-overlay";
+	document.body.appendChild(overlay);
+
+	const customAlertDiv = document.createElement("div");
+	customAlertDiv.id = "custom-alert";
+	document.body.appendChild(customAlertDiv);
+}
+
+// Custom Alert Modal
+function cAlert(message) {
+	appendOverlayAndCustomAlertDivs();
+
+	const overlay = document.getElementById("custom-overlay");
+	const customAlertDiv = document.getElementById("custom-alert");
+
+	overlay.style.display = "flex";
+	customAlertDiv.style.display = "block";
+	customAlertDiv.innerHTML = `<p>${message}</p><button onclick="removeCustomAlertDivs()">OK</button>`;
+}
+
+// Custom Prompt Modal
+var promptResult;
+function cPrompt(message, defaultValue) {
+	appendOverlayAndCustomAlertDivs();
+
+	const overlay = document.getElementById("custom-overlay");
+	const customAlertDiv = document.getElementById("custom-alert");
+
+	overlay.style.display = "flex";
+	customAlertDiv.style.display = "block";
+	const inputField = document.createElement("input");
+	inputField.type = "text";
+	inputField.value = defaultValue || "";
+	customAlertDiv.innerHTML = `<p>${message}</p>`;
+	customAlertDiv.appendChild(inputField);
+	customAlertDiv.innerHTML += `<button onclick="promptOK()">OK</button>`;
+}
+
+// Custom Confirm Modal
+function cConfirm(message, callback) {
+	appendOverlayAndCustomAlertDivs();
+
+	const overlay = document.getElementById("custom-overlay");
+	const customAlertDiv = document.getElementById("custom-alert");
+
+	overlay.style.display = "flex";
+	customAlertDiv.style.display = "block";
+	customAlertDiv.innerHTML = `<p>${message}</p><button onclick="confirmOK(${callback})">OK</button><button onclick="removeCustomAlertDivs()">Cancel</button>`;
+}
+
+function confirmOK(callback) {
+	removeCustomAlertDivs();
+	// Execute the callback function if provided
+	if (callback) {
+		callback();
+	}
+}
+
+function promptOK() {
+	const customAlertDiv = document.getElementById("custom-alert");
+	const inputField = customAlertDiv.querySelector("input");
+
+	promptResult = inputField.value;
+
+	removeCustomAlertDivs();
+	console.log("Prompt result:", promptResult);
+}
+
+function removeCustomAlertDivs() {
+	const overlay = document.getElementById("custom-overlay");
+	const customAlertDiv = document.getElementById("custom-alert");
+
+	overlay.parentNode.removeChild(overlay);
+	customAlertDiv.parentNode.removeChild(customAlertDiv);
+}
+
+// Replace the standard alert and prompt functions
+window.alert = cAlert;
+window.prompt = cPrompt;
+window.confirm = cConfirm;
