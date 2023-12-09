@@ -1384,6 +1384,7 @@ function mouse(
 /* Usage:
 mouse(0, 0, "path/to/image.png", "mouse", "center", 999);
 */
+
 function appendOverlayAndCustomAlertDivs() {
 	const overlay = document.createElement("div");
 	overlay.id = "custom-overlay";
@@ -1466,3 +1467,73 @@ function removeCustomAlertDivs() {
 window.alert = cAlert;
 window.prompt = cPrompt;
 window.confirm = cConfirm;
+
+// Custom mouse menu
+function mouseMenu(options, targetElement) {
+	const menu = document.createElement("div");
+	menu.className = "custom-menu";
+	document.body.appendChild(menu);
+
+	function showMenu(e) {
+		e.preventDefault();
+		menu.style.display = "block";
+		menu.style.left = e.pageX + "px";
+		menu.style.top = e.pageY + "px";
+
+		// Add menu items based on options
+		menu.innerHTML = options
+			.map(
+				(option) =>
+					`<div class="menu-item" data-name="${option.name}">${option.name}</div>`
+			)
+			.join("");
+
+		// Attach click event to each menu item
+		options.forEach((option, index) => {
+			const menuItem = menu.children[index];
+			menuItem.addEventListener("click", function () {
+				option.onClick();
+				document.body.removeChild(menu); // Remove the menu from the DOM
+			});
+		});
+
+		// Close the menu when clicking outside
+		document.addEventListener("click", hideMenu);
+	}
+
+	function hideMenu() {
+		document.body.removeChild(menu); // Remove the menu from the DOM
+		document.removeEventListener("click", hideMenu);
+	}
+
+	if (targetElement) {
+		targetElement.addEventListener("contextmenu", showMenu);
+	} else {
+		document.addEventListener("contextmenu", showMenu);
+	}
+}
+/* Example usage:
+// Use it globally
+mouseMenu([
+	{ name: "Option 1", onClick: () => console.log("Option 1 clicked") },
+	{ name: "Option 2", onClick: () => alert("Option 2 clicked") },
+	// Add more options as needed
+]);
+
+// Use it on a specific element
+const specificElement = $("#yourElementId");
+mouseMenu(
+	[
+		{
+			name: "Specific Option 1",
+			onClick: () => console.log("Specific Option 1 clicked"),
+		},
+		{
+			name: "Specific Option 2",
+			onClick: () => alert("Specific Option 2 clicked"),
+		},
+		// Add more options as needed
+	],
+	specificElement
+);
+*/
