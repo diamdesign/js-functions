@@ -1757,7 +1757,7 @@ function sum(a, b) {
 }
 
 // Function to get the current month in text
-function getMonth() {
+function getCurrentMonth() {
 	const months = [
 		"January",
 		"February",
@@ -1777,7 +1777,7 @@ function getMonth() {
 }
 
 // Function to get the current day in text
-function getDay() {
+function getCurrentDay() {
 	const days = [
 		"Sunday",
 		"Monday",
@@ -1792,7 +1792,7 @@ function getDay() {
 }
 
 // Function to get the current year
-function getYear() {
+function getCurrentYear() {
 	return new Date().getFullYear();
 }
 
@@ -1830,9 +1830,9 @@ function timeUntilDate(futureDate) {
 	}
 }
 /* Example usage:
-console.log("Current Month:", getMonth());
-console.log("Current Day:", getDay());
-console.log("Current Year:", getYear());
+console.log("Current Month:", getCurrentMonth());
+console.log("Current Day:", getCurrentDay());
+console.log("Current Year:", getCurrentYear());
 console.log("Time Until Midnight:", timeUntilMidnight());
 console.log("Time Until Future Date:", timeUntilDate("2023-12-31"));
 */
