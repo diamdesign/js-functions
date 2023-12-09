@@ -1009,15 +1009,18 @@ $('#copyButton').on('click', () => $.copyToClipboard(textToCopy));
 */
 
 // Get URL Parameters
-function urlParam(url) {
-	const params = {};
-	new URL(url).searchParams.forEach((value, key) => (params[key] = value));
-	return params;
-}
-/* Example URL Parameters
-const url = 'https://example.com/page?param1=value1&param2=value2';
-const params = getUrlParameters(url);
-console.log('URL Parameters:', params);
+const getParams = (URL) =>
+	JSON.parse(
+		'{"' +
+			decodeURI(URL.split("?")[1])
+				.replace(/"/g, '\\"')
+				.replace(/&/g, '","')
+				.replace(/=/g, '":"') +
+			'"}'
+	);
+/* Usage
+getParams("https://www.google.de/search?q=cars&start=40");
+// Result: { q: 'cars', start: '40' }
 */
 
 // Capitalize First Letter
@@ -1043,18 +1046,6 @@ console.log('Lowercase String:', lowercaseString);
 
 const uppercaseString = uppercaseAll(originalString);
 console.log('Uppercase String:', uppercaseString);
-*/
-
-// Detect dark mode
-function isDarkModeEnabled() {
-	return (
-		window.matchMedia &&
-		window.matchMedia("(prefers-color-scheme: dark)").matches
-	);
-}
-/* Usage:
-const isDarkMode = isDarkModeEnabled();
-console.log('Dark Mode Enabled:', isDarkMode);
 */
 
 // Check age
@@ -1153,6 +1144,61 @@ const mergedObject = deepMerge(obj1, obj2);
 console.log('Merged Object:', mergedObject);
 */
 
+function deepClone(obj, clonesMap = new WeakMap()) {
+	if (obj === null || typeof obj !== "object") {
+		// If the object is null or not an object, return the object itself
+		return obj;
+	}
+
+	if (clonesMap.has(obj)) {
+		// If the object has already been cloned, return the existing clone
+		return clonesMap.get(obj);
+	}
+
+	if (Array.isArray(obj)) {
+		// If the object is an array, create a new array and deep clone each element
+		const newArray = [];
+		clonesMap.set(obj, newArray); // Save the clone in the map
+		for (let i = 0; i < obj.length; i++) {
+			newArray[i] = deepClone(obj[i], clonesMap);
+		}
+		return newArray;
+	}
+
+	// If the object is an object (not an array), create a new object and deep clone each property
+	const newObj = {};
+	clonesMap.set(obj, newObj); // Save the clone in the map
+	for (const key in obj) {
+		if (obj.hasOwnProperty(key)) {
+			newObj[key] = deepClone(obj[key], clonesMap);
+		}
+	}
+	return newObj;
+}
+/* Example usage:
+const originalObject = {
+	name: "John",
+	age: 30,
+	address: {
+		city: "New York",
+		country: "USA",
+	},
+};
+
+const clonedObject = deepClone(originalObject);
+
+console.log(originalObject);
+console.log(clonedObject);
+
+// Modify the original object
+originalObject.address.city = "San Francisco";
+
+// The modification in the original object does not affect the cloned one
+console.log(originalObject);
+console.log(clonedObject);
+*/
+
+// Create Element
 function createElement(tag, attributes = {}) {
 	const element = document.createElement(tag);
 	Object.entries(attributes).forEach(([key, value]) => {
@@ -1215,6 +1261,18 @@ function deleteCookie(name) {
 /* Usage:
 deleteCookie("cookievariable");
 */
+
+const clearCookies = document.cookie
+	.split(";")
+	.forEach(
+		(cookie) =>
+			(document.cookie = cookie
+				.replace(/^ +/, "")
+				.replace(
+					/=.*/,
+					`=;expires=${new Date(0).toUTCString()};path=/`
+				))
+	);
 
 var emailInput;
 var passwordInput;
@@ -1597,4 +1655,308 @@ const scrapeType = "text"; // Options: 'text', 'image', 'html'
 
 // Call the scrape function
 scraper(targetUrl, targetTagName, scrapeType);
+*/
+
+// Get User details
+function getUserInfo() {
+	return new Promise(async (resolve) => {
+		const info = {};
+
+		// Retrieve user agent (browser information)
+		info.userAgent = navigator.userAgent;
+		console.log("User Agent:", info.userAgent);
+
+		// Retrieve screen resolution
+		info.resolution = `${window.screen.width}x${window.screen.height}`;
+		console.log("Resolution:", info.resolution);
+
+		// Retrieve IP address (using a third-party service)
+		try {
+			const ipResponse = await fetch(
+				"https://api64.ipify.org?format=json"
+			);
+			const ipData = await ipResponse.json();
+			info.ip = ipData.ip;
+			console.log("IP Address:", info.ip);
+		} catch (error) {
+			console.error("Error retrieving IP address:", error);
+		}
+
+		// Retrieve geolocation (latitude and longitude)
+		if ("geolocation" in navigator) {
+			navigator.geolocation.getCurrentPosition(
+				(position) => {
+					info.latitude = position.coords.latitude;
+					info.longitude = position.coords.longitude;
+					console.log("Geolocation:", info.latitude, info.longitude);
+				},
+				(error) => {
+					console.error("Error retrieving geolocation:", error);
+				}
+			);
+		}
+
+		// Retrieve user language
+		info.language = navigator.language;
+		console.log("Language:", info.language);
+
+		// Retrieve timezone
+		info.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+		console.log("Timezone:", info.timezone);
+
+		// Retrieve device information
+		info.deviceMemory = navigator.deviceMemory || "N/A";
+		info.hardwareConcurrency = navigator.hardwareConcurrency || "N/A";
+		info.platform = navigator.platform || "N/A";
+		console.log(
+			"Device Information:",
+			info.deviceMemory,
+			info.hardwareConcurrency,
+			info.platform
+		);
+
+		console.log("All Info:", info);
+		userInfo = info;
+		resolve(info);
+	});
+}
+/* Example usage:
+async function fetchUserInfo() {
+	userInfo = await getUserInfo();
+	console.log("Stored UserInfo:", userInfo);
+
+	// Now you can use userInfo.userAgent, userInfo.resolution, userInfo.ip, userInfo.latitude, etc.
+}
+
+fetchUserInfo();
+*/
+
+function once(fn, context) {
+	var result;
+
+	return function () {
+		if (fn) {
+			result = fn.apply(context || this, arguments);
+			fn = null;
+		}
+
+		return result;
+	};
+}
+/* Usage
+var canOnlyFireOnce = once(function() {
+	console.log('Fired!');
+});
+
+canOnlyFireOnce(); // "Fired!"
+canOnlyFireOnce(); // nada
+*/
+
+function sum(a, b) {
+	return a + b;
+}
+
+// Function to get the current month in text
+function getMonth() {
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+	const currentMonthIndex = new Date().getMonth();
+	return months[currentMonthIndex];
+}
+
+// Function to get the current day in text
+function getDay() {
+	const days = [
+		"Sunday",
+		"Monday",
+		"Tuesday",
+		"Wednesday",
+		"Thursday",
+		"Friday",
+		"Saturday",
+	];
+	const currentDayIndex = new Date().getDay();
+	return days[currentDayIndex];
+}
+
+// Function to get the current year
+function getYear() {
+	return new Date().getFullYear();
+}
+
+// Function to get the time until midnight
+function timeUntilMidnight() {
+	const now = new Date();
+	const midnight = new Date(now);
+	midnight.setHours(24, 0, 0, 0); // Set to the next midnight
+
+	const timeUntilMidnight = midnight - now;
+	const hours = Math.floor(timeUntilMidnight / (1000 * 60 * 60));
+	const minutes = Math.floor(
+		(timeUntilMidnight % (1000 * 60 * 60)) / (1000 * 60)
+	);
+	const seconds = Math.floor((timeUntilMidnight % (1000 * 60)) / 1000);
+
+	return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+}
+
+// Function to get the time until a specific future date
+function timeUntilDate(futureDate) {
+	const now = new Date();
+	const targetDate = new Date(futureDate);
+
+	if (targetDate < now) {
+		// The target date is in the past
+		const timeSincePastDate = now - targetDate;
+		const days = Math.floor(timeSincePastDate / (1000 * 60 * 60 * 24));
+		return `It has been ${days} days since ${futureDate}.`;
+	} else {
+		// The target date is in the future
+		const timeUntilFutureDate = targetDate - now;
+		const days = Math.floor(timeUntilFutureDate / (1000 * 60 * 60 * 24));
+		return `There are ${days} days until ${futureDate}.`;
+	}
+}
+/* Example usage:
+console.log("Current Month:", getMonth());
+console.log("Current Day:", getDay());
+console.log("Current Year:", getYear());
+console.log("Time Until Midnight:", timeUntilMidnight());
+console.log("Time Until Future Date:", timeUntilDate("2023-12-31"));
+*/
+
+function dayDif(date1, date2) {
+	return Math.ceil(Math.abs(date1.getTime() - date2.getTime()) / 86400000);
+}
+/* Example usage:
+const result = dayDif(new Date("2020-10-21"), new Date("2021-10-22"));
+console.log("Result:", result); // Output: 366
+*/
+
+function randomColor() {
+	const letters = "0123456789ABCDEF";
+	let color = "#";
+
+	for (let i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+
+	return color;
+}
+/* Example usage:
+const randomColor = randomColor();
+console.log("Random Hex Color:", randomColor);
+*/
+
+function rgbaToHex(r, g, b, a) {
+	const toHex = (value) => {
+		const hex = Math.round(value).toString(16);
+		return hex.length === 1 ? "0" + hex : hex;
+	};
+
+	const hexR = toHex(r);
+	const hexG = toHex(g);
+	const hexB = toHex(b);
+
+	// Ensure that the alpha value is in the valid range [0, 1]
+	const alpha = a >= 0 && a <= 1 ? a : 1;
+	const hexA = Math.round(alpha * 255).toString(16);
+
+	return `#${hexR}${hexG}${hexB}${hexA}`;
+}
+/* Example usage:
+const rgbaColor = "rgba(255, 120, 0, 0.7)";
+const match = rgbaColor.match(/(\d+(\.\d+)?)/g);
+
+if (match && match.length >= 3) {
+	const [r, g, b, a = 1] = match.map(parseFloat);
+	const hexColor = rgbaToHex(r, g, b, a);
+	console.log("RGBA Color:", rgbaColor);
+	console.log("Hex Color:", hexColor);
+} else {
+	console.error("Invalid RGBA color format");
+}
+*/
+
+const goToTop = () => window.scrollTo(0, 0);
+/* Usage:
+goToTop();
+*/
+
+const celsiusToFahrenheit = (celsius) => (celsius * 9) / 5 + 32;
+const fahrenheitToCelsius = (fahrenheit) => ((fahrenheit - 32) * 5) / 9;
+/* Examples
+celsiusToFahrenheit(15);    // 59
+fahrenheitToCelsius(59);    // 15
+*/
+
+const isAppleDevice = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+/* Example 
+console.log(isAppleDevice);
+*/
+
+const stringReverse = (str) => str.split("").reverse().join("");
+/* Example 
+stringReverse('elcitra ym ekil uoy epoh i');
+// Result: i hope you like my article
+*/
+
+function stripHtml(textWithHtml) {
+	const regex = /<[^>]*>/g;
+	return textWithHtml.replace(regex, "");
+}
+/* Example usage:
+const htmlString = "<p>This is <strong>HTML</strong> text.</p>";
+const textWithoutHtml = stripHtml(htmlString);
+console.log("Text without HTML:", textWithoutHtml);
+*/
+
+const round = (n, d) => Number(Math.round(n + "e" + d) + "e-" + d);
+/* Usage
+round(1.005, 2) //1.01
+round(1.555, 2) //1.56
+*/
+
+const isDarkMode =
+	window.matchMedia &&
+	window.matchMedia("(prefers-color-scheme: dark)").matches;
+/* Usage
+console.log(isDarkMode) // Result: True or False
+*/
+
+const dayOfYear = (date) =>
+	Math.floor(
+		(date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24
+	);
+/* Usage
+dayOfYear(new Date());
+*/
+
+const randomBoolean = () => Math.random() >= 0.5;
+/* Usage
+console.log(randomBoolean());
+*/
+
+const removeDuplicates = (arr) => [...new Set(arr)];
+/* Usage
+removeDuplicates([31, 56, 12, 31, 45, 12, 31]);
+//[ 31, 56, 12, 45 ]
+*/
+
+const randomArrayItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+/* Usage
+randomArrayItem(['lol', 'a', 2, 'foo', 52, 'Jhon', 'hello', 57]);
+// Result: It will be some random item from array
 */
