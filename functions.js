@@ -915,15 +915,6 @@ const fetchDataExample = async () => {
 fetchDataExample();
 */
 
-// Get random number
-function randomNumber(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-/* Example Random Number Generator
-const randomNumber = getRandomNumber(1, 100);
-console.log('Random Number:', randomNumber);
-*/
-
 function generateUUID() {
 	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
 		/[xy]/g,
@@ -1965,6 +1956,15 @@ const dayOfYear = (date) =>
 	);
 /* Usage
 dayOfYear(new Date());
+*/
+
+// Get random number
+function randomNumber(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+/* Example Random Number Generator
+const randomNumber = getRandomNumber(1, 100);
+console.log('Random Number:', randomNumber);
 */
 
 const randomBoolean = () => Math.random() >= 0.5;
