@@ -1890,6 +1890,29 @@ if (match && match.length >= 3) {
 }
 */
 
+function hexToRgba(hex) {
+	const hexWithoutHash = hex.startsWith("#") ? hex.slice(1) : hex;
+
+	const parseHexChannel = (hexChannel) => parseInt(hexChannel, 16);
+
+	const r = parseHexChannel(hexWithoutHash.substring(0, 2));
+	const g = parseHexChannel(hexWithoutHash.substring(2, 4));
+	const b = parseHexChannel(hexWithoutHash.substring(4, 6));
+
+	const alpha =
+		hexWithoutHash.length === 8
+			? parseHexChannel(hexWithoutHash.substring(6, 8)) / 255
+			: 1;
+
+	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+/* Example usage:
+const hexColor = "#1a2b3c";
+const rgbaColor = hexToRgba(hexColor);
+console.log("Hex Color:", hexColor);
+console.log("RGBA Color:", rgbaColor);
+*/
+
 const goToTop = () => window.scrollTo(0, 0);
 /* Usage:
 goToTop();
