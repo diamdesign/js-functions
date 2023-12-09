@@ -1983,3 +1983,66 @@ const randomArrayItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 randomArrayItem(['lol', 'a', 2, 'foo', 52, 'Jhon', 'hello', 57]);
 // Result: It will be some random item from array
 */
+
+// Drag n drop function
+function enableDrag(selector, options = {}) {
+	const draggableElement = document.querySelector(selector);
+	let isDragging = false;
+	let offsetX, offsetY;
+
+	draggableElement.addEventListener("mousedown", (e) => {
+		isDragging = true;
+		offsetX = e.clientX - draggableElement.getBoundingClientRect().left;
+		offsetY = e.clientY - draggableElement.getBoundingClientRect().top;
+
+		draggableElement.style.cursor = "grabbing";
+		document.addEventListener("mousemove", handleMouseMove);
+		document.addEventListener("mouseup", handleMouseUp);
+	});
+
+	function handleMouseMove(e) {
+		if (isDragging) {
+			const x = e.clientX - offsetX;
+			const y = e.clientY - offsetY;
+
+			draggableElement.style.left = `${x}px`;
+			draggableElement.style.top = `${y}px`;
+		}
+	}
+
+	function handleMouseUp() {
+		isDragging = false;
+		draggableElement.style.cursor = "grab";
+		document.removeEventListener("mousemove", handleMouseMove);
+		document.removeEventListener("mouseup", handleMouseUp);
+
+		if (options.snapBack) {
+			// Snap back to the original position
+			draggableElement.style.left = "0";
+			draggableElement.style.top = "0";
+		}
+
+		if (options.droppableSelector) {
+			const droppableElement = document.querySelector(
+				options.droppableSelector
+			);
+			const rect1 = draggableElement.getBoundingClientRect();
+			const rect2 = droppableElement.getBoundingClientRect();
+
+			if (
+				rect1.left < rect2.right &&
+				rect1.right > rect2.left &&
+				rect1.top < rect2.bottom &&
+				rect1.bottom > rect2.top
+			) {
+				// The draggable element is over the droppable area
+				droppableElement.appendChild(draggableElement);
+				draggableElement.style.left = "0";
+				draggableElement.style.top = "0";
+			}
+		}
+	}
+}
+/* Usage
+enableDrag("#dragMe", { snapBack: true, droppableSelector: "#dropHere" });
+*/
