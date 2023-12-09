@@ -788,23 +788,58 @@ goTo("https://adress.com");
 */
 
 // Function to show a loader in an area while sending XHR
-(function ($) {
-	$.fn.loader = function (action) {
+(function () {
+	function showLoader(element) {
+		element.style.opacity = 0;
+		element.style.position = "relative";
+		var loaderContainer = document.createElement("div");
+		loaderContainer.className = "loader-container";
+		element.parentNode.appendChild(loaderContainer);
+		fadeIn(loaderContainer);
+	}
+
+	function hideLoader(element) {
+		element.style.opacity = 1;
+		var loaderContainer = document.querySelector(".loader-container");
+		if (loaderContainer) {
+			loaderContainer.parentNode.removeChild(loaderContainer);
+		}
+	}
+
+	function fadeIn(element) {
+		element.style.display = "none";
+		element.style.opacity = 0;
+		element.style.display = "block";
+
+		var opacity = 0;
+		var intervalId = setInterval(function () {
+			if (opacity < 1) {
+				opacity += 0.1;
+				element.style.opacity = opacity;
+			} else {
+				clearInterval(intervalId);
+			}
+		}, 100);
+	}
+
+	function loader(action) {
+		var elements = document.querySelectorAll(".loader-container");
+
+		elements.forEach(function (element) {
+			element.parentNode.removeChild(element);
+		});
+
 		if (action === "on") {
-			// Turn on the loader
-			this.css("opacity", 0);
-			this.css("position", "relative");
-			var loaderContainer = $('<div class="loader-container"></div>');
-			this.parent().append(loaderContainer);
-			loaderContainer.fadeIn();
+			showLoader(this);
 		} else if (action === "off") {
-			// Turn off the loader
-			this.css("opacity", 1);
-			$(".loader-container").remove();
+			hideLoader(this);
 		}
 		return this;
-	};
-})(jQuery);
+	}
+
+	window.loader = loader;
+})();
+
 /* Usage: 
 $("#content").loader("on"); 
 $("#content").loader("off");
@@ -1984,49 +2019,65 @@ randomArrayItem(['lol', 'a', 2, 'foo', 52, 'Jhon', 'hello', 57]);
 // Result: It will be some random item from array
 */
 
-// Drag n drop function
+// WORK IN PROGRESS DRAGGABLE OBJECTS
 function enableDrag(selector, options = {}) {
-	const draggableElement = document.querySelector(selector);
 	let isDragging = false;
 	let offsetX, offsetY;
+	let originalContainer = null;
+	let draggableElement = null;
+	let clonedElement = null;
 
-	draggableElement.addEventListener("mousedown", (e) => {
+	document.addEventListener("mousedown", (e) => {
+		draggableElement = e.target.closest(selector);
+
 		isDragging = true;
-		offsetX = e.clientX - draggableElement.getBoundingClientRect().left;
-		offsetY = e.clientY - draggableElement.getBoundingClientRect().top;
+		originalContainer = draggableElement.parentNode;
 
-		draggableElement.style.cursor = "grabbing";
+		// Clone the draggable element
+		clonedElement = draggableElement.cloneNode(true);
+		document.body.appendChild(clonedElement);
+		// Remove the original draggable element
+		if (!options.cloneOnly) {
+			originalContainer.removeChild(draggableElement);
+		}
+
+		clonedElement.style.cursor = "grabbing";
+		clonedElement.style.position = "absolute";
+		clonedElement.style.zIndex = "999";
+
+		// Calculate the offset for the cloned element
+		const rect = draggableElement.getBoundingClientRect();
+		offsetX = e.clientX - rect.left;
+		offsetY = e.clientY - rect.top;
+
+		// Set the initial position for the cloned element
+		clonedElement.style.left = `${rect.left}px`;
+		clonedElement.style.top = `${rect.top}px`;
+
 		document.addEventListener("mousemove", handleMouseMove);
 		document.addEventListener("mouseup", handleMouseUp);
 	});
 
 	function handleMouseMove(e) {
-		if (isDragging) {
+		if (isDragging && clonedElement) {
 			const x = e.clientX - offsetX;
 			const y = e.clientY - offsetY;
 
-			draggableElement.style.left = `${x}px`;
-			draggableElement.style.top = `${y}px`;
+			clonedElement.style.left = `${x}px`;
+			clonedElement.style.top = `${y}px`;
 		}
 	}
 
 	function handleMouseUp() {
 		isDragging = false;
-		draggableElement.style.cursor = "grab";
-		document.removeEventListener("mousemove", handleMouseMove);
-		document.removeEventListener("mouseup", handleMouseUp);
 
-		if (options.snapBack) {
-			// Snap back to the original position
-			draggableElement.style.left = "0";
-			draggableElement.style.top = "0";
-		}
+		clonedElement.style.cursor = "grab";
 
 		if (options.droppableSelector) {
 			const droppableElement = document.querySelector(
 				options.droppableSelector
 			);
-			const rect1 = draggableElement.getBoundingClientRect();
+			const rect1 = clonedElement.getBoundingClientRect();
 			const rect2 = droppableElement.getBoundingClientRect();
 
 			if (
@@ -2035,14 +2086,49 @@ function enableDrag(selector, options = {}) {
 				rect1.top < rect2.bottom &&
 				rect1.bottom > rect2.top
 			) {
-				// The draggable element is over the droppable area
-				droppableElement.appendChild(draggableElement);
-				draggableElement.style.left = "0";
-				draggableElement.style.top = "0";
+				// Calculate position relative to droppable container
+				const xRelativeToContainer = rect1.left - rect2.left;
+				const yRelativeToContainer = rect1.top - rect2.top;
+
+				// Set the position relative to the container for the clone
+				clonedElement.style.left = `${xRelativeToContainer}px`;
+				clonedElement.style.top = `${yRelativeToContainer}px`;
+
+				// Append the clone to the droppable container
+				document.body.removeChild(clonedElement);
+				droppableElement.appendChild(clonedElement);
+				clonedElement.style.left = 0;
+				clonedElement.style.top = 0;
+				clonedElement.style.position = "relative";
+				clonedElement.style.zIndex = 1;
+				clonedElement = null;
+				draggableElement = null;
+
+				// Remove the original draggable element
+				originalContainer.removeChild(draggableElement);
+
+				// Remove the cloned element from the body
+				if (clonedElement) {
+					document.body.removeChild(clonedElement);
+					clonedElement = null;
+					draggableElement = null;
+				}
 			}
+		} else if (options.snapBack) {
+			// Snap back to the original position
+			document.body.removeChild(clonedElement);
+			originalContainer.appendChild(clonedElement);
+			clonedElement.style.left = 0;
+			clonedElement.style.top = 0;
+			clonedElement = null;
+			draggableElement = null;
 		}
+
+		document.removeEventListener("mousemove", handleMouseMove);
+		document.removeEventListener("mouseup", handleMouseUp);
 	}
 }
+
 /* Usage
 enableDrag("#dragMe", { snapBack: true, droppableSelector: "#dropHere" });
 */
