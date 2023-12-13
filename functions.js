@@ -950,7 +950,7 @@ const fetchDataExample = async () => {
 fetchDataExample();
 */
 
-function generateUUID() {
+const generateUUID = () => {
 	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
 		/[xy]/g,
 		function (c) {
@@ -959,13 +959,13 @@ function generateUUID() {
 			return v.toString(16);
 		}
 	);
-}
+};
 /* Example UUID Generator
 const uuid = generateUUID();
 console.log('Generated UUID:', uuid);
 */
 
-function generateRandomId(length = 8) {
+const generateRandomId = (length = 8) => {
 	const characters =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	let randomId = "";
@@ -974,27 +974,27 @@ function generateRandomId(length = 8) {
 		randomId += characters.charAt(randomIndex);
 	}
 	return randomId;
-}
+};
 
 // Format a date
-function formatDate(date, options = {}) {
+const formatDate = (date, options = {}) => {
 	const defaultOptions = { year: "numeric", month: "long", day: "numeric" };
 	const mergedOptions = { ...defaultOptions, ...options };
 	return new Date(date).toLocaleDateString(undefined, mergedOptions);
-}
+};
 /* Usage:
 const currentDate = new Date();
 const formattedDate = formatDate(currentDate);
 console.log('Formatted Date:', formattedDate);
 */
 
-function formatNumber(number, separator) {
+const formatNumber = (number, separator) => {
 	if (separator !== "," && separator !== " ") {
 		throw new Error('Invalid separator. Please use "," or " "');
 	}
 
 	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
-}
+};
 /* Usage:
 const numberWithCommas = formatNumber(1000000, ',');
 console.log(numberWithCommas); // Output: '1,000,000'
@@ -1003,30 +1003,30 @@ const numberWithSpaces = formatNumber(1000000, ' ');
 console.log(numberWithSpaces); // Output: '1 000 000'
 */
 
-function scrollToTop() {
+const scrollToTop = () => {
 	window.scrollTo({ top: 0, behavior: "smooth" });
-}
+};
 
 // Detect if the user is on a mobile device
-function isMobileDevice() {
+const isMobileDevice = () => {
 	return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
 		navigator.userAgent
 	);
-}
+};
 /* Usage:
 const isMobile = isMobileDevice();
 console.log('Is Mobile Device:', isMobile);
 */
 
 // Copy text to the clipboard
-function copyToClipboard(text) {
+const copyToClipboard = (text) => {
 	const textArea = document.createElement("textarea");
 	textArea.value = text;
 	document.body.appendChild(textArea);
 	textArea.select();
 	document.execCommand("copy");
 	document.body.removeChild(textArea);
-}
+};
 /* Usage:
 const textToCopy = 'Copy this text!';
 document.getElementById('copyButton').addEventListener('click', () => copyToClipboard(textToCopy));
@@ -1050,45 +1050,48 @@ getParams("https://www.google.de/search?q=cars&start=40");
 */
 
 // Capitalize First Letter
-function capFirst(str) {
+const capFirst = (str) => {
 	return str.charAt(0).toUpperCase() + str.slice(1);
-}
-/* Example Capitalize First Letter
-const capitalizedString = capitalizeFirstLetter('example');
-console.log('Capitalized String:', capitalizedString);
+};
+/* Example Capitalize First Letter 
+const capitalizedString = capFirst("example");
+console.log("Capitalized String:", capitalizedString);
 */
 
 // Convert String to All Lowercase
-function lowerAll(str) {
+const lowerAll = (str) => {
 	return str.toLowerCase();
-}
-// Convert String to All Uppercase
-function upperAll(str) {
-	return str.toUpperCase();
-}
-/*
-const lowercaseString = lowercaseAll(originalString);
-console.log('Lowercase String:', lowercaseString);
+};
 
-const uppercaseString = uppercaseAll(originalString);
-console.log('Uppercase String:', uppercaseString);
-*/
+// Convert String to All Uppercase
+const upperAll = (str) => {
+	return str.toUpperCase();
+};
 
 // Check age
-function isAge(birthdate, specifiedAge) {
-	// Convert birthdate to a Date object
+const isAge = (birthdate, specifiedAge) => {
 	const birthDateObject = new Date(birthdate);
-
-	// Get the current date
 	const currentDate = new Date();
 
-	// Calculate the age
-	const calculatedAge =
+	// Calculate the difference in years
+	const ageDifference =
 		currentDate.getFullYear() - birthDateObject.getFullYear();
 
+	// Check if the birthday has occurred this year
+	const hasBirthdayOccurred =
+		currentDate.getMonth() > birthDateObject.getMonth() ||
+		(currentDate.getMonth() === birthDateObject.getMonth() &&
+			currentDate.getDate() >= birthDateObject.getDate());
+
+	// Adjust the age based on whether the birthday has occurred
+	const calculatedAge = hasBirthdayOccurred
+		? ageDifference
+		: ageDifference - 1;
+
 	// Check if the specified age matches the calculated age
-	return specifiedAge === calculatedAge;
-}
+	return specifiedAge <= calculatedAge;
+};
+
 /*
 const birthdate = "1990-01-01"; // Replace with the actual birthdate in 'YYYY-MM-DD' format
 const specifiedAge = 32; // Replace with the desired age
@@ -1102,7 +1105,7 @@ if (result) {
 }
 */
 
-function themeSwitcher(themeStylesheetSelector, themeSwitcherSelector) {
+const themeSwitcher = (themeStylesheetSelector, themeSwitcherSelector) => {
 	const themeStylesheet = $(themeStylesheetSelector);
 	const themeSwitcher = $(themeSwitcherSelector);
 
@@ -1138,14 +1141,14 @@ function themeSwitcher(themeStylesheetSelector, themeSwitcherSelector) {
 		// Store the selected theme in a cookie
 		setCookie("selectedTheme", newTheme, 365); // Set the cookie to expire in 365 days
 	});
-}
+};
 /* Example usage
 themeSwitcher("#theme-selector", "#theme-switcher");
 */
 
-function toArray(arrayLike) {
+const toArray = (arrayLike) => {
 	return Array.from(arrayLike);
-}
+};
 /* Example Convert Array-like to Array
 const nodeList = document.querySelectorAll('p');
 const arrayFromNodeList = toArray(nodeList);
@@ -1153,7 +1156,7 @@ console.log('Array from NodeList:', arrayFromNodeList);
 */
 
 // Deep merge objects
-function deepMerge(target, source) {
+const deepMerge = (target, source) => {
 	for (const key in source) {
 		if (source[key] instanceof Object) {
 			target[key] = deepMerge(target[key], source[key]);
@@ -1162,7 +1165,7 @@ function deepMerge(target, source) {
 		}
 	}
 	return { ...target };
-}
+};
 /* Usage:
 const obj1 = { a: { b: 1, c: { d: 2 } } };
 const obj2 = { a: { b: 3, c: { e: 4 } }, f: 5 };
@@ -1170,7 +1173,7 @@ const mergedObject = deepMerge(obj1, obj2);
 console.log('Merged Object:', mergedObject);
 */
 
-function deepClone(obj, clonesMap = new WeakMap()) {
+const deepClone = (obj, clonesMap = new WeakMap()) => {
 	if (obj === null || typeof obj !== "object") {
 		// If the object is null or not an object, return the object itself
 		return obj;
@@ -1200,7 +1203,7 @@ function deepClone(obj, clonesMap = new WeakMap()) {
 		}
 	}
 	return newObj;
-}
+};
 /* Example usage:
 const originalObject = {
 	name: "John",
@@ -1225,7 +1228,7 @@ console.log(clonedObject);
 */
 
 // Create Element
-function createElement(tag, attributes = {}) {
+const createElement = (tag, attributes = {}) => {
 	const element = document.createElement(tag);
 	Object.entries(attributes).forEach(([key, value]) => {
 		if (key.startsWith("data-")) {
@@ -1238,7 +1241,7 @@ function createElement(tag, attributes = {}) {
 		}
 	});
 	return element;
-}
+};
 /* Example Element Creation
 const newDiv = createElement('div', {
     id: 'newDiv',
@@ -1251,19 +1254,19 @@ document.body.appendChild(newDiv);
 
 // Function to set a cookie with a specified name,
 // value, and expiration(in days)
-function setCookie(name, value, days) {
+const setCookie = (name, value, days) => {
 	const expirationDate = new Date();
 	expirationDate.setDate(expirationDate.getDate() + days);
 	const expires = "expires=" + expirationDate.toUTCString();
 	const path = "path=/"; // Set the path to the root
 	document.cookie = name + "=" + value + ";" + expires + ";" + path;
-}
+};
 /* Usage:
 setCookie("cookievariable", variablevalue, 365);
 */
 
 // Function to get the value of a cookie by name
-function getCookie(name) {
+const getCookie = (name) => {
 	const cookieName = name + "=";
 	const cookies = document.cookie.split(";");
 	for (let i = 0; i < cookies.length; i++) {
@@ -1273,37 +1276,42 @@ function getCookie(name) {
 		}
 	}
 	return "";
-}
+};
 /* Usage:
 const variable = getCookie("cookievariable");
 */
 
 // Function to delete a cookie by name
-function deleteCookie(name) {
+const deleteCookie = (name) => {
 	// Set the expiration date of the cookie to a date in the past
 	document.cookie =
 		name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-}
+};
 /* Usage:
 deleteCookie("cookievariable");
 */
 
-const clearCookies = document.cookie
-	.split(";")
-	.forEach(
-		(cookie) =>
-			(document.cookie = cookie
-				.replace(/^ +/, "")
-				.replace(
-					/=.*/,
-					`=;expires=${new Date(0).toUTCString()};path=/`
-				))
-	);
+const clearCookies = () => {
+	const cookiesBeforeClearing = document.cookie; // Store the current cookies
+
+	document.cookie.split(";").forEach((cookie) => {
+		const trimmedCookie = cookie.replace(/^ +/, "");
+		document.cookie = trimmedCookie.replace(
+			/=.*/,
+			`=;expires=${new Date(0).toUTCString()};path=/`
+		);
+	});
+
+	const cookiesAfterClearing = document.cookie; // Store the cookies after clearing
+
+	// Return true if there were cookies before and they are different after clearing
+	return cookiesBeforeClearing !== cookiesAfterClearing;
+};
 
 var emailInput;
 var passwordInput;
 
-function onlyValidText(selector, type) {
+const onlyValidText = (selector, type) => {
 	const elements = document.querySelectorAll(selector);
 
 	elements.forEach((element) => {
@@ -1329,27 +1337,27 @@ function onlyValidText(selector, type) {
 			event.target.value = sanitizedValue;
 		});
 	});
-}
+};
 /* Usage:
 onlyValidText("#selector-email", "email"); // Allows you to only write email characters
 onlyValidText("#selector-password", "password"); // Allows you to only write password characters
 */
 
 // Function to sanitize input to prevent SQL injection
-function sanitizeInput(input) {
+const sanitizeInput = (input) => {
 	// Replace dangerous characters with empty strings
 	return input.replace(/[()[]"'`]+/g, "");
-}
+};
 /* Usage:
 sanitizeInput(input);
 */
 
 // Function to validate email
-function isValidEmail(email) {
+const isValidEmail = (email) => {
 	// Use a regular expression to validate email format
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 	return emailRegex.test(email);
-}
+};
 /* Usage:
 const isValid = isValidEmail(emailToValidate);
 if (isValid) {
@@ -1359,7 +1367,7 @@ if (isValid) {
 }
 */
 
-function validateInput(emailSelector, passwordSelector) {
+const validateInput = (emailSelector, passwordSelector) => {
 	// Get input values
 	const emailInputs = document.querySelectorAll(emailSelector);
 	const passwordInputs = document.querySelectorAll(passwordSelector);
@@ -1403,7 +1411,7 @@ function validateInput(emailSelector, passwordSelector) {
 
 	// Add your code for sending the data to the server here
 	return true;
-}
+};
 /* Usage:
 const isValid = validateInput("#email", ".password");
 // Proceed with form submission if validation is successful
@@ -1436,6 +1444,11 @@ function mouse(
 	align = "default",
 	zIndex = 99999
 ) {
+	// Hide the mouse cursor for the entire document
+	const styleElement = document.createElement("style");
+	styleElement.textContent = "* { cursor: none; }";
+	document.head.appendChild(styleElement);
+
 	const image = new Image();
 	image.src = imageUrl;
 	image.style.position = "absolute";
@@ -1469,7 +1482,7 @@ function mouse(
 mouse(0, 0, "path/to/image.png", "mouse", "center", 999);
 */
 
-function appendOverlayAndCustomAlertDivs() {
+const customAlertDivs = () => {
 	const overlay = document.createElement("div");
 	overlay.id = "custom-overlay";
 	document.body.appendChild(overlay);
@@ -1477,11 +1490,11 @@ function appendOverlayAndCustomAlertDivs() {
 	const customAlertDiv = document.createElement("div");
 	customAlertDiv.id = "custom-alert";
 	document.body.appendChild(customAlertDiv);
-}
+};
 
 // Custom Alert Modal
-function cAlert(message) {
-	appendOverlayAndCustomAlertDivs();
+const cAlert = (message) => {
+	customAlertDivs();
 
 	const overlay = document.getElementById("custom-overlay");
 	const customAlertDiv = document.getElementById("custom-alert");
@@ -1489,12 +1502,12 @@ function cAlert(message) {
 	overlay.style.display = "flex";
 	customAlertDiv.style.display = "block";
 	customAlertDiv.innerHTML = `<p>${message}</p><button onclick="removeCustomAlertDivs()">OK</button>`;
-}
+};
 
 // Custom Prompt Modal
 var promptResult;
-function cPrompt(message, defaultValue) {
-	appendOverlayAndCustomAlertDivs();
+const cPrompt = (message, defaultValue) => {
+	customAlertDivs();
 
 	const overlay = document.getElementById("custom-overlay");
 	const customAlertDiv = document.getElementById("custom-alert");
@@ -1507,11 +1520,11 @@ function cPrompt(message, defaultValue) {
 	customAlertDiv.innerHTML = `<p>${message}</p>`;
 	customAlertDiv.appendChild(inputField);
 	customAlertDiv.innerHTML += `<button onclick="promptOK()">OK</button>`;
-}
+};
 
 // Custom Confirm Modal
-function cConfirm(message, callback) {
-	appendOverlayAndCustomAlertDivs();
+const cConfirm = (message, callback) => {
+	customAlertDivs();
 
 	const overlay = document.getElementById("custom-overlay");
 	const customAlertDiv = document.getElementById("custom-alert");
@@ -1519,17 +1532,17 @@ function cConfirm(message, callback) {
 	overlay.style.display = "flex";
 	customAlertDiv.style.display = "block";
 	customAlertDiv.innerHTML = `<p>${message}</p><button onclick="confirmOK(${callback})">OK</button><button onclick="removeCustomAlertDivs()">Cancel</button>`;
-}
+};
 
-function confirmOK(callback) {
+const confirmOK = (callback) => {
 	removeCustomAlertDivs();
 	// Execute the callback function if provided
 	if (callback) {
 		callback();
 	}
-}
+};
 
-function promptOK() {
+const promptOK = () => {
 	const customAlertDiv = document.getElementById("custom-alert");
 	const inputField = customAlertDiv.querySelector("input");
 
@@ -1537,15 +1550,15 @@ function promptOK() {
 
 	removeCustomAlertDivs();
 	console.log("Prompt result:", promptResult);
-}
+};
 
-function removeCustomAlertDivs() {
+const removeCustomAlertDivs = () => {
 	const overlay = document.getElementById("custom-overlay");
 	const customAlertDiv = document.getElementById("custom-alert");
 
 	overlay.parentNode.removeChild(overlay);
 	customAlertDiv.parentNode.removeChild(customAlertDiv);
-}
+};
 
 // Replace the standard alert and prompt functions
 window.alert = cAlert;
@@ -1553,13 +1566,21 @@ window.prompt = cPrompt;
 window.confirm = cConfirm;
 
 // Custom mouse menu
-function mouseMenu(options, targetElement) {
-	const menu = document.createElement("div");
-	menu.className = "custom-menu";
-	document.body.appendChild(menu);
+const mouseMenu = (options, targetElement) => {
+	let menu; // Declare menu variable outside the function
+
+	function createMenu() {
+		if (!menu) {
+			menu = document.createElement("div");
+			menu.className = "custom-menu";
+			document.body.appendChild(menu);
+		}
+	}
 
 	function showMenu(e) {
 		e.preventDefault();
+		createMenu(); // Create the menu if it doesn't exist
+
 		menu.style.display = "block";
 		menu.style.left = e.pageX + "px";
 		menu.style.top = e.pageY + "px";
@@ -1577,17 +1598,25 @@ function mouseMenu(options, targetElement) {
 			const menuItem = menu.children[index];
 			menuItem.addEventListener("click", function () {
 				option.onClick();
-				document.body.removeChild(menu); // Remove the menu from the DOM
+				hideMenu(); // Hide the menu after clicking an option
 			});
 		});
 
 		// Close the menu when clicking outside
-		document.addEventListener("click", hideMenu);
+		document.addEventListener("click", handleOutsideClick);
+	}
+
+	function handleOutsideClick(e) {
+		if (menu && !menu.contains(e.target)) {
+			hideMenu();
+		}
 	}
 
 	function hideMenu() {
-		document.body.removeChild(menu); // Remove the menu from the DOM
-		document.removeEventListener("click", hideMenu);
+		if (menu && document.body.contains(menu)) {
+			menu.style.display = "none"; // Hide the menu instead of removing it
+		}
+		document.removeEventListener("click", handleOutsideClick);
 	}
 
 	if (targetElement) {
@@ -1595,30 +1624,31 @@ function mouseMenu(options, targetElement) {
 	} else {
 		document.addEventListener("contextmenu", showMenu);
 	}
-}
+};
+
 /* Example usage:
 // Use it globally
 mouseMenu([
-	{ name: "Option 1", onClick: () => console.log("Option 1 clicked") },
-	{ name: "Option 2", onClick: () => alert("Option 2 clicked") },
-	// Add more options as needed
+    { name: "Option 1", onClick: () => console.log("Option 1 clicked") },
+    { name: "Option 2", onClick: () => alert("Option 2 clicked") },
+    // Add more options as needed
 ]);
 
 // Use it on a specific element
-const specificElement = $("#yourElementId");
+const specificElement = document.getElementById("yourElementId");
 mouseMenu(
-	[
-		{
-			name: "Specific Option 1",
-			onClick: () => console.log("Specific Option 1 clicked"),
-		},
-		{
-			name: "Specific Option 2",
-			onClick: () => alert("Specific Option 2 clicked"),
-		},
-		// Add more options as needed
-	],
-	specificElement
+    [
+        {
+            name: "Specific Option 1",
+            onClick: () => console.log("Specific Option 1 clicked"),
+        },
+        {
+            name: "Specific Option 2",
+            onClick: () => alert("Specific Option 2 clicked"),
+        },
+        // Add more options as needed
+    ],
+    specificElement
 );
 */
 
@@ -1684,7 +1714,7 @@ scraper(targetUrl, targetTagName, scrapeType);
 */
 
 // Get User details
-function getUserInfo() {
+const getUserInfo = () => {
 	return new Promise(async (resolve) => {
 		const info = {};
 
@@ -1707,7 +1737,7 @@ function getUserInfo() {
 		} catch (error) {
 			console.error("Error retrieving IP address:", error);
 		}
-
+		/*
 		// Retrieve geolocation (latitude and longitude)
 		if ("geolocation" in navigator) {
 			navigator.geolocation.getCurrentPosition(
@@ -1721,7 +1751,7 @@ function getUserInfo() {
 				}
 			);
 		}
-
+*/
 		// Retrieve user language
 		info.language = navigator.language;
 		console.log("Language:", info.language);
@@ -1745,7 +1775,7 @@ function getUserInfo() {
 		userInfo = info;
 		resolve(info);
 	});
-}
+};
 /* Example usage:
 async function fetchUserInfo() {
 	userInfo = await getUserInfo();
@@ -1753,11 +1783,10 @@ async function fetchUserInfo() {
 
 	// Now you can use userInfo.userAgent, userInfo.resolution, userInfo.ip, userInfo.latitude, etc.
 }
-
 fetchUserInfo();
 */
 
-function once(fn, context) {
+const once = (fn, context) => {
 	var result;
 
 	return function () {
@@ -1768,7 +1797,7 @@ function once(fn, context) {
 
 		return result;
 	};
-}
+};
 /* Usage
 var canOnlyFireOnce = once(function() {
 	console.log('Fired!');
@@ -1778,12 +1807,12 @@ canOnlyFireOnce(); // "Fired!"
 canOnlyFireOnce(); // nada
 */
 
-function sum(a, b) {
+const sum = (a, b) => {
 	return a + b;
-}
+};
 
 // Function to get the current month in text
-function getCurrentMonth() {
+const getCurrentMonth = () => {
 	const months = [
 		"January",
 		"February",
@@ -1800,10 +1829,10 @@ function getCurrentMonth() {
 	];
 	const currentMonthIndex = new Date().getMonth();
 	return months[currentMonthIndex];
-}
+};
 
 // Function to get the current day in text
-function getCurrentDay() {
+const getCurrentDay = () => {
 	const days = [
 		"Sunday",
 		"Monday",
@@ -1815,15 +1844,29 @@ function getCurrentDay() {
 	];
 	const currentDayIndex = new Date().getDay();
 	return days[currentDayIndex];
-}
+};
 
 // Function to get the current year
-function getCurrentYear() {
+const getCurrentYear = () => {
 	return new Date().getFullYear();
-}
+};
+
+// Function to get the current time
+const getCurrentTime = () => {
+	const now = new Date();
+	const hours = now.getHours().toString().padStart(2, "0");
+	const minutes = now.getMinutes().toString().padStart(2, "0");
+	const seconds = now.getSeconds().toString().padStart(2, "0");
+
+	return `${hours}:${minutes}:${seconds}`;
+};
+/* Example usage
+const currentTime = getCurrentTime();
+console.log('Current Time:', currentTime);
+*/
 
 // Function to get the time until midnight
-function timeUntilMidnight() {
+const timeUntilMidnight = () => {
 	const now = new Date();
 	const midnight = new Date(now);
 	midnight.setHours(24, 0, 0, 0); // Set to the next midnight
@@ -1836,10 +1879,10 @@ function timeUntilMidnight() {
 	const seconds = Math.floor((timeUntilMidnight % (1000 * 60)) / 1000);
 
 	return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-}
+};
 
 // Function to get the time until a specific future date
-function timeUntilDate(futureDate) {
+const timeUntilDate = (futureDate) => {
 	const now = new Date();
 	const targetDate = new Date(futureDate);
 
@@ -1854,7 +1897,7 @@ function timeUntilDate(futureDate) {
 		const days = Math.floor(timeUntilFutureDate / (1000 * 60 * 60 * 24));
 		return `There are ${days} days until ${futureDate}.`;
 	}
-}
+};
 /* Example usage:
 console.log("Current Month:", getCurrentMonth());
 console.log("Current Day:", getCurrentDay());
@@ -1863,15 +1906,15 @@ console.log("Time Until Midnight:", timeUntilMidnight());
 console.log("Time Until Future Date:", timeUntilDate("2023-12-31"));
 */
 
-function dayDif(date1, date2) {
+const dayDif = (date1, date2) => {
 	return Math.ceil(Math.abs(date1.getTime() - date2.getTime()) / 86400000);
-}
+};
 /* Example usage:
 const result = dayDif(new Date("2020-10-21"), new Date("2021-10-22"));
 console.log("Result:", result); // Output: 366
 */
 
-function randomColor() {
+const randomColor = () => {
 	const letters = "0123456789ABCDEF";
 	let color = "#";
 
@@ -1880,13 +1923,13 @@ function randomColor() {
 	}
 
 	return color;
-}
+};
 /* Example usage:
 const randomColor = randomColor();
 console.log("Random Hex Color:", randomColor);
 */
 
-function rgbaToHex(r, g, b, a) {
+const rgbaToHex = (r, g, b, a) => {
 	const toHex = (value) => {
 		const hex = Math.round(value).toString(16);
 		return hex.length === 1 ? "0" + hex : hex;
@@ -1901,7 +1944,7 @@ function rgbaToHex(r, g, b, a) {
 	const hexA = Math.round(alpha * 255).toString(16);
 
 	return `#${hexR}${hexG}${hexB}${hexA}`;
-}
+};
 /* Example usage:
 const rgbaColor = "rgba(255, 120, 0, 0.7)";
 const match = rgbaColor.match(/(\d+(\.\d+)?)/g);
@@ -1916,7 +1959,7 @@ if (match && match.length >= 3) {
 }
 */
 
-function hexToRgba(hex) {
+const hexToRgba = (hex) => {
 	const hexWithoutHash = hex.startsWith("#") ? hex.slice(1) : hex;
 
 	const parseHexChannel = (hexChannel) => parseInt(hexChannel, 16);
@@ -1931,7 +1974,7 @@ function hexToRgba(hex) {
 			: 1;
 
 	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
+};
 /* Example usage:
 const hexColor = "#1a2b3c";
 const rgbaColor = hexToRgba(hexColor);
@@ -1944,13 +1987,33 @@ const goToTop = () => window.scrollTo(0, 0);
 goToTop();
 */
 
-const celsiusToFahrenheit = (celsius) => (celsius * 9) / 5 + 32;
-const fahrenheitToCelsius = (fahrenheit) => ((fahrenheit - 32) * 5) / 9;
+const c2f = (celsius) => (celsius * 9) / 5 + 32;
+const f2c = (fahrenheit) => ((fahrenheit - 32) * 5) / 9;
 /* Examples
 celsiusToFahrenheit(15);    // 59
 fahrenheitToCelsius(59);    // 15
 */
 
+// Volume Conversions
+const ml2dl = (milliliters) => milliliters / 100;
+const dl2ml = (deciliters) => deciliters * 100;
+
+const ml2liter = (milliliters) => milliliters / 1000;
+const liter2ml = (liters) => liters * 1000;
+
+// Distance Conversions
+const meter2mile = (meters) => meters / 1609.344;
+const mile2meter = (miles) => miles * 1609.344;
+
+const s2h = (seconds) => seconds / 3600;
+const h2s = (hours) => hours * 3600;
+// Area Calculation for Rectangle
+const rectangleArea = (lengthInMeters, widthInMeters) =>
+	lengthInMeters * widthInMeters;
+/*
+const area = rectangleArea(length, width);
+console.log(`The area of a rectangle with length ${length} meters and width ${width} meters is ${area} square meters`);
+*/
 const isAppleDevice = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
 /* Example 
 console.log(isAppleDevice);
@@ -1962,10 +2025,10 @@ stringReverse('elcitra ym ekil uoy epoh i');
 // Result: i hope you like my article
 */
 
-function stripHtml(textWithHtml) {
+const stripHtml = (textWithHtml) => {
 	const regex = /<[^>]*>/g;
 	return textWithHtml.replace(regex, "");
-}
+};
 /* Example usage:
 const htmlString = "<p>This is <strong>HTML</strong> text.</p>";
 const textWithoutHtml = stripHtml(htmlString);
@@ -1985,18 +2048,23 @@ const isDarkMode =
 console.log(isDarkMode) // Result: True or False
 */
 
-const dayOfYear = (date) =>
-	Math.floor(
-		(date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24
-	);
+const dayOfYear = (dateString) => {
+	const date = dateString ? new Date(dateString) : new Date();
+	const startOfYear = new Date(date.getFullYear(), 0, 0);
+	const diff = date - startOfYear;
+	const oneDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+	return Math.floor(diff / oneDay) + 1;
+};
+
 /* Usage
-dayOfYear(new Date());
+console.log(dayOfYear()); // Uses the current date
+console.log(dayOfYear("2023-03-15")); // Uses the provided date string
 */
 
 // Get random number
-function randomNumber(min, max) {
+const randomNumber = (min, max) => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 /* Example Random Number Generator
 const randomNumber = getRandomNumber(1, 100);
 console.log('Random Number:', randomNumber);
