@@ -2209,4 +2209,6 @@ function enableDrag(selector, options = {}) {
 
 /* Usage
 enableDrag("#dragMe", { snapBack: true, droppableSelector: "#dropHere" });
+
+STILL WORK IN PROGRESS, DOES NOT WORK FULLY.
 */
