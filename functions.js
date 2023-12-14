@@ -976,6 +976,16 @@ const generateRandomId = (length = 8) => {
 	return randomId;
 };
 
+const generateRandomNumId = (length = 8) => {
+	const characters = "0123456789";
+	let randomId = "";
+	for (let i = 0; i < length; i++) {
+		const randomIndex = Math.floor(Math.random() * characters.length);
+		randomId += characters.charAt(randomIndex);
+	}
+	return randomId;
+};
+
 // Format a date
 const formatDate = (date, options = {}) => {
 	const defaultOptions = { year: "numeric", month: "long", day: "numeric" };
