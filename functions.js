@@ -597,6 +597,28 @@ function $(selector) {
 			return morefunctions;
 		},
 
+		keyup: function (callback, key) {
+			elements.forEach((element) => {
+				element.addEventListener("keyup", (event) => {
+					if (!key || event.key === key) {
+						callback(event);
+					}
+				});
+			});
+			return morefunctions;
+		},
+
+		keydown: function (callback, key) {
+			elements.forEach((element) => {
+				element.addEventListener("keydown", (event) => {
+					if (!key || event.key === key) {
+						callback(event);
+					}
+				});
+			});
+			return morefunctions;
+		},
+
 		blur: function (handler) {
 			elements.forEach((element) => {
 				element.addEventListener("blur", handler);
@@ -776,7 +798,16 @@ $("#hello")
     and so on...
     .on("click", function() {
         alert("Element clicked!");
-    });*/
+    });
+
+	$("your-selector").keyup(function (event) {
+		// Your keyup event handling code here
+	}, "Enter");
+
+	$("your-selector").keydown(function (event) {
+		// Your keydown event handling code here
+	}, "A");
+	*/
 
 // Function to go to a certain adress
 function goTo(adress) {
