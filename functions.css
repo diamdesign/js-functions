@@ -9997,3 +9997,44 @@
 	right: 0px;
 	bottom: 0px;
 }
+
+/*[ Grid ]
+-----------------------------------------------------------
+*/
+
+.grid {
+	display: grid;
+}
+
+.grid-2-c {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.grid-3-c {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-4-c {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.grid-5-c {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.grid-6-c {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.align-items-center {
+	align-items: center;
+}
+
+.justify-content-center {
+	justify-content: center;
+}
