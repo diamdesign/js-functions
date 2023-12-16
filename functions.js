@@ -1534,7 +1534,7 @@ All logs is stored in $logs, do whatever you want with it, save export.
 */
 
 // Set a custom cursor on your mouse
-function mouse(
+function cursor(
 	xOffset,
 	yOffset,
 	imageUrl,
@@ -1577,7 +1577,7 @@ function mouse(
 	});
 }
 /* Usage:
-mouse(0, 0, "path/to/image.png", "mouse", "center", 999);
+cursor(0, 0, "path/to/image.png", "mouse", "center", 999);
 */
 
 const customAlertDivs = () => {
