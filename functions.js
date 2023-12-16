@@ -1801,6 +1801,7 @@ async function scraper(url, tagName, scrapeType = "text") {
 		console.error("Error during web scraping:", error);
 	}
 }
+/* NOT WORKING BECAUSE OF CORS */
 /* Example usage:
 // Specify the URL, the tag name, and the scrape type
 const targetUrl = "https://example.com";
