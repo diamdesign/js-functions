@@ -10038,3 +10038,163 @@
 .justify-content-center {
 	justify-content: center;
 }
+
+
+/*[ Colors ]
+-----------------------------------------------------------
+*/
+
+.red {
+    color:red;
+}
+
+.bg-red {
+    background-color:red;
+}
+
+.blue {
+    color:blue;
+}
+
+.bg-blue {
+    background-color:blue;
+}
+
+.royalblue {
+    color:royalblue;
+}
+
+.bg-royalblue {
+    background-color:royalblue;
+}
+
+.gray {
+    color:gray;
+}
+
+.bg-gray {
+    background-color:gray;
+}
+
+.lightgray {
+    color:lightgray;
+}
+
+.bg-lightgray {
+    background-color:lightgray;
+}
+
+
+.darkred {
+    color:darkred;
+}
+
+.bg-darkred {
+    background-color:darkred;
+}
+
+.lightgreen {
+    color:lightgreen;
+}
+
+.bg-lightgreen {
+    background-color:lightgreen;
+}
+
+.green {
+    color:green;
+}
+
+.bg-green {
+    background-color:green;
+}
+
+.yellow {
+    color:yellow;
+}
+
+.bg-yellow {
+    background-color:yellow;
+}
+
+.black {
+    color:black;
+}
+
+.bg-black {
+    background-color:black;
+}
+
+.white {
+    color:white;
+}
+
+.bg-white {
+    background-color:white;
+}
+
+.brown {
+    color:brown;
+}
+
+.bg-brown {
+    background-color:brown;
+}
+
+.purple {
+    color:purple;
+}
+
+.bg-purple {
+    background-color:purple;
+}
+
+
+.magenta {
+    color:magenta;
+}
+
+.bg-magenta {
+    background-color:magenta;
+}
+
+.navy {
+    color:navy;
+}
+
+.bg-navy {
+    background-color:navy;
+}
+
+.darkgreen {
+    color:darkgreen;
+}
+
+.bg-darkgreen {
+    background-color:darkgreen;
+}
+
+.gold {
+    color:gold;
+}
+
+.bg-gold {
+    background-color:gold;
+}
+
+.silver {
+    color:silver;
+}
+
+.bg-silver {
+    background-color:silver;
+}
+
+
+.forestgreen {
+    color:forestgreen;
+}
+
+.bg-forestgreen {
+    background-color:forestgreen;
+}
