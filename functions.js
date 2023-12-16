@@ -2193,8 +2193,9 @@ function enableDrag(selector, options = {}) {
 	let originalContainer = null;
 	let draggableElement = null;
 	let clonedElement = null;
+	let droppableSelector = null;
 
-	document.addEventListener("mousedown", (e) => {
+	document.querySelector(selector).addEventListener("mousedown", (e) => {
 		draggableElement = e.target.closest(selector);
 
 		isDragging = true;
@@ -2208,14 +2209,14 @@ function enableDrag(selector, options = {}) {
 			originalContainer.removeChild(draggableElement);
 		}
 
+		// Calculate the offset for the cloned element
+		var rect = draggableElement.getBoundingClientRect();
+		offsetX = e.clientX - rect.left;
+		offsetY = e.clientY - rect.top;
+
 		clonedElement.style.cursor = "grabbing";
 		clonedElement.style.position = "absolute";
 		clonedElement.style.zIndex = "999";
-
-		// Calculate the offset for the cloned element
-		const rect = draggableElement.getBoundingClientRect();
-		offsetX = e.clientX - rect.left;
-		offsetY = e.clientY - rect.top;
 
 		// Set the initial position for the cloned element
 		clonedElement.style.left = `${rect.left}px`;
@@ -2227,8 +2228,8 @@ function enableDrag(selector, options = {}) {
 
 	function handleMouseMove(e) {
 		if (isDragging && clonedElement) {
-			const x = e.clientX - offsetX;
-			const y = e.clientY - offsetY;
+			var x = e.clientX - offsetX;
+			var y = e.clientY - offsetY;
 
 			clonedElement.style.left = `${x}px`;
 			clonedElement.style.top = `${y}px`;
@@ -2241,11 +2242,11 @@ function enableDrag(selector, options = {}) {
 		clonedElement.style.cursor = "grab";
 
 		if (options.droppableSelector) {
-			const droppableElement = document.querySelector(
+			var droppableElement = document.querySelector(
 				options.droppableSelector
 			);
-			const rect1 = clonedElement.getBoundingClientRect();
-			const rect2 = droppableElement.getBoundingClientRect();
+			var rect1 = clonedElement.getBoundingClientRect();
+			var rect2 = droppableElement.getBoundingClientRect();
 
 			if (
 				rect1.left < rect2.right &&
@@ -2253,42 +2254,35 @@ function enableDrag(selector, options = {}) {
 				rect1.top < rect2.bottom &&
 				rect1.bottom > rect2.top
 			) {
-				// Calculate position relative to droppable container
-				const xRelativeToContainer = rect1.left - rect2.left;
-				const yRelativeToContainer = rect1.top - rect2.top;
-
-				// Set the position relative to the container for the clone
-				clonedElement.style.left = `${xRelativeToContainer}px`;
-				clonedElement.style.top = `${yRelativeToContainer}px`;
-
-				// Append the clone to the droppable container
-				document.body.removeChild(clonedElement);
+				// Droppable container becomes the new parent
 				droppableElement.appendChild(clonedElement);
 				clonedElement.style.left = 0;
 				clonedElement.style.top = 0;
-				clonedElement.style.position = "relative";
-				clonedElement.style.zIndex = 1;
-				clonedElement = null;
-				draggableElement = null;
-
-				// Remove the original draggable element
-				originalContainer.removeChild(draggableElement);
-
-				// Remove the cloned element from the body
-				if (clonedElement) {
-					document.body.removeChild(clonedElement);
-					clonedElement = null;
-					draggableElement = null;
-				}
+				// Swap references between originalContainer and droppableElement
+				[originalContainer, droppableElement] = [
+					droppableElement,
+					originalContainer,
+				];
+				// Log the updated values
+				console.log(
+					"Drag object: ",
+					draggableElement,
+					" Org Container: ",
+					originalContainer,
+					" Drop Container: ",
+					droppableSelector
+				);
+			} else {
+				// Snap back to the original position
+				originalContainer.appendChild(clonedElement);
+				clonedElement.style.left = 0;
+				clonedElement.style.top = 0;
 			}
 		} else if (options.snapBack) {
 			// Snap back to the original position
-			document.body.removeChild(clonedElement);
 			originalContainer.appendChild(clonedElement);
 			clonedElement.style.left = 0;
 			clonedElement.style.top = 0;
-			clonedElement = null;
-			draggableElement = null;
 		}
 
 		document.removeEventListener("mousemove", handleMouseMove);
