@@ -649,6 +649,63 @@ function $(selector) {
 			return elements.length > 0 ? elements[0].offsetHeight : undefined;
 		},
 
+		position: function (x, y, anchor = "topleft") {
+			if (elements.length > 0) {
+				const element = elements[0];
+
+				if (x !== undefined && y !== undefined) {
+					// Set the position
+					const rect = element.getBoundingClientRect();
+					const width = element.offsetWidth;
+					const height = element.offsetHeight;
+
+					switch (anchor) {
+						case "topcenter":
+							x -= width / 2;
+							break;
+						case "topright":
+							x -= width;
+							break;
+						case "centerleft":
+							y -= height / 2;
+							break;
+						case "center":
+							x -= width / 2;
+							y -= height / 2;
+							break;
+						case "centerright":
+							x -= width;
+							y -= height / 2;
+							break;
+						case "bottomleft":
+							y -= height;
+							break;
+						case "bottomcenter":
+							x -= width / 2;
+							y -= height;
+							break;
+						case "bottomright":
+							x -= width;
+							y -= height;
+							break;
+						// 'topleft' is the default case
+					}
+
+					element.style.position = "absolute";
+					element.style.left = x + "px";
+					element.style.top = y + "px";
+
+					return morefunctions;
+				} else {
+					// Get the position
+					const rect = element.getBoundingClientRect();
+					return { x: rect.left, y: rect.top };
+				}
+			} else {
+				return undefined;
+			}
+		},
+
 		parents: function () {
 			const parentNodes = new Set();
 			elements.forEach((element) => {
