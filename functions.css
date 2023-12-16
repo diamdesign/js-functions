@@ -10039,162 +10039,158 @@
 	justify-content: center;
 }
 
-
 /*[ Colors ]
 -----------------------------------------------------------
 */
 
 .red {
-    color:red;
+	color: red;
 }
 
 .bg-red {
-    background-color:red;
+	background-color: red;
 }
 
 .blue {
-    color:blue;
+	color: blue;
 }
 
 .bg-blue {
-    background-color:blue;
+	background-color: blue;
 }
 
 .royalblue {
-    color:royalblue;
+	color: royalblue;
 }
 
 .bg-royalblue {
-    background-color:royalblue;
+	background-color: royalblue;
 }
 
 .gray {
-    color:gray;
+	color: gray;
 }
 
 .bg-gray {
-    background-color:gray;
+	background-color: gray;
 }
 
 .lightgray {
-    color:lightgray;
+	color: lightgray;
 }
 
 .bg-lightgray {
-    background-color:lightgray;
+	background-color: lightgray;
 }
 
-
 .darkred {
-    color:darkred;
+	color: darkred;
 }
 
 .bg-darkred {
-    background-color:darkred;
+	background-color: darkred;
 }
 
 .lightgreen {
-    color:lightgreen;
+	color: lightgreen;
 }
 
 .bg-lightgreen {
-    background-color:lightgreen;
+	background-color: lightgreen;
 }
 
 .green {
-    color:green;
+	color: green;
 }
 
 .bg-green {
-    background-color:green;
+	background-color: green;
 }
 
 .yellow {
-    color:yellow;
+	color: yellow;
 }
 
 .bg-yellow {
-    background-color:yellow;
+	background-color: yellow;
 }
 
 .black {
-    color:black;
+	color: black;
 }
 
 .bg-black {
-    background-color:black;
+	background-color: black;
 }
 
 .white {
-    color:white;
+	color: white;
 }
 
 .bg-white {
-    background-color:white;
+	background-color: white;
 }
 
 .brown {
-    color:brown;
+	color: brown;
 }
 
 .bg-brown {
-    background-color:brown;
+	background-color: brown;
 }
 
 .purple {
-    color:purple;
+	color: purple;
 }
 
 .bg-purple {
-    background-color:purple;
+	background-color: purple;
 }
 
-
 .magenta {
-    color:magenta;
+	color: magenta;
 }
 
 .bg-magenta {
-    background-color:magenta;
+	background-color: magenta;
 }
 
 .navy {
-    color:navy;
+	color: navy;
 }
 
 .bg-navy {
-    background-color:navy;
+	background-color: navy;
 }
 
 .darkgreen {
-    color:darkgreen;
+	color: darkgreen;
 }
 
 .bg-darkgreen {
-    background-color:darkgreen;
+	background-color: darkgreen;
 }
 
 .gold {
-    color:gold;
+	color: gold;
 }
 
 .bg-gold {
-    background-color:gold;
+	background-color: gold;
 }
 
 .silver {
-    color:silver;
+	color: silver;
 }
 
 .bg-silver {
-    background-color:silver;
+	background-color: silver;
 }
 
-
 .forestgreen {
-    color:forestgreen;
+	color: forestgreen;
 }
 
 .bg-forestgreen {
-    background-color:forestgreen;
+	background-color: forestgreen;
 }
