@@ -1658,10 +1658,12 @@ const removeCustomAlertDivs = () => {
 	customAlertDiv.parentNode.removeChild(customAlertDiv);
 };
 
+/*
 // Replace the standard alert and prompt functions
 window.alert = cAlert;
 window.prompt = cPrompt;
 window.confirm = cConfirm;
+*/
 
 // Custom mouse menu
 const mouseMenu = (options, targetElement) => {
