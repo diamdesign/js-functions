@@ -1752,68 +1752,6 @@ mouseMenu(
 );
 */
 
-// Easy webscraper
-async function scraper(url, tagName, scrapeType = "text") {
-	try {
-		// Fetch the HTML content from the specified URL
-		const response = await fetch(url);
-		const html = await response.text();
-
-		// Parse the HTML content using DOMParser
-		const parser = new DOMParser();
-		const doc = parser.parseFromString(html, "text/html");
-
-		// Select all elements with the specified tag name
-		const elements = doc.querySelectorAll(tagName);
-
-		// Process based on the specified scrape type
-		let scrapedContent = "";
-		switch (scrapeType) {
-			case "text":
-				// Concatenate the text content of each selected element
-				elements.forEach((element) => {
-					scrapedContent += element.textContent.trim() + "\n";
-				});
-				break;
-			case "image":
-				// Get the src attribute of each img element
-				elements.forEach((element) => {
-					const src = element.getAttribute("src");
-					if (src) {
-						scrapedContent += src + "\n";
-					}
-				});
-				break;
-			case "html":
-				// Concatenate the HTML content of each selected element
-				elements.forEach((element) => {
-					scrapedContent += element.outerHTML + "\n";
-				});
-				break;
-			default:
-				console.error("Invalid scrape type specified");
-				return;
-		}
-
-		// Log or return the scraped content
-		console.log(scrapedContent);
-		// If you want to return the content, you can use:
-		// return scrapedContent;
-	} catch (error) {
-		console.error("Error during web scraping:", error);
-	}
-}
-/* NOT WORKING BECAUSE OF CORS */
-/* Example usage:
-// Specify the URL, the tag name, and the scrape type
-const targetUrl = "https://example.com";
-const targetTagName = "p";
-const scrapeType = "text"; // Options: 'text', 'image', 'html'
-
-// Call the scrape function
-scraper(targetUrl, targetTagName, scrapeType);
-*/
-
 // Get User details
 const getUserInfo = () => {
 	return new Promise(async (resolve) => {
