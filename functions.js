@@ -1,9 +1,9 @@
 function $(selector) {
 	const elements = document.querySelectorAll(selector);
 
-	// Mimic some jQuery functions or add your own vanilla JavaScript functions here
+	// Mimic some jQuery functions
 	const morefunctions = {
-		// Example: Add a class to the selected elements
+		// Add a class to the selected elements
 		addClass: function (className) {
 			elements.forEach((element) => {
 				element.classList.add(className);
@@ -11,7 +11,7 @@ function $(selector) {
 			return morefunctions;
 		},
 
-		// Example: Remove a class from the selected elements
+		// Remove a class from the selected elements
 		removeClass: function (className) {
 			elements.forEach((element) => {
 				element.classList.remove(className);
@@ -19,6 +19,7 @@ function $(selector) {
 			return morefunctions;
 		},
 
+		// Toggle a class on selected elements
 		toggleClass: function (className) {
 			elements.forEach((element) => {
 				element.classList.toggle(className);
@@ -26,6 +27,7 @@ function $(selector) {
 			return morefunctions;
 		},
 
+		// Manipulate CSS on selected elements
 		css: function (property, value) {
 			elements.forEach((element) => {
 				element.style[property] = value;
@@ -33,6 +35,7 @@ function $(selector) {
 			return morefunctions;
 		},
 
+		// Add event listener on selected elements
 		on: function (eventName, handler) {
 			elements.forEach((element) => {
 				element.addEventListener(eventName, handler);
@@ -40,6 +43,7 @@ function $(selector) {
 			return morefunctions;
 		},
 
+		// Quick FadeIn your selected elements
 		fadeIn: function (duration = 400) {
 			elements.forEach((element) => {
 				element.style.transition = `opacity ${duration}ms`;
@@ -48,6 +52,7 @@ function $(selector) {
 			return morefunctions;
 		},
 
+		// Hide selected elements
 		hide: function () {
 			elements.forEach((element) => {
 				element.style.display = "none";
@@ -55,11 +60,19 @@ function $(selector) {
 			return morefunctions;
 		},
 
+		// Show selected elements
+		show: function (displayValue = "block") {
+			elements.forEach((element) => {
+				element.style.display = displayValue;
+			});
+			return morefunctions;
+		},
+
+		// Remove selected elements
 		remove: function (childSelector) {
 			elements.forEach((element) => {
 				if (childSelector) {
-					const childrenToRemove =
-						element.querySelectorAll(childSelector);
+					const childrenToRemove = element.querySelectorAll(childSelector);
 					childrenToRemove.forEach((child) => {
 						child.parentNode.removeChild(child);
 					});
@@ -70,13 +83,7 @@ function $(selector) {
 			return morefunctions;
 		},
 
-		show: function (displayValue = "block") {
-			elements.forEach((element) => {
-				element.style.display = displayValue;
-			});
-			return morefunctions;
-		},
-
+		// Go to parent element from selected element
 		parent: function () {
 			const parentElements = [];
 			elements.forEach((element) => {
@@ -88,6 +95,7 @@ function $(selector) {
 			return $(parentElements);
 		},
 
+		// Go to child element from selected element
 		child: function (childSelector) {
 			const childElements = [];
 			elements.forEach((element) => {
@@ -101,6 +109,7 @@ function $(selector) {
 			return $(childElements);
 		},
 
+		// Find closest selected element
 		closest: function (selector) {
 			const closestElements = [];
 			elements.forEach((element) => {
@@ -115,6 +124,7 @@ function $(selector) {
 			return $(closestElements);
 		},
 
+		// Find next selected element
 		next: function () {
 			const nextElements = [];
 			elements.forEach((element) => {
@@ -127,6 +137,7 @@ function $(selector) {
 			return $(nextElements);
 		},
 
+		// Get/Set the value from inputs
 		val: function (newValue) {
 			if (newValue !== undefined) {
 				// Setter: Set the value of the selected elements
@@ -140,6 +151,7 @@ function $(selector) {
 			}
 		},
 
+		// Get/Set the value from content
 		text: function (newText) {
 			if (newText !== undefined) {
 				// Setter: Set the text content of the selected elements
@@ -149,12 +161,11 @@ function $(selector) {
 				return morefunctions;
 			} else {
 				// Getter: Return the text content of the first matched element
-				return elements.length > 0
-					? elements[0].textContent
-					: undefined;
+				return elements.length > 0 ? elements[0].textContent : undefined;
 			}
 		},
 
+		// Get/Set the html inside element
 		html: function (newHtml) {
 			if (newHtml !== undefined) {
 				// Setter: Set the HTML content of the selected elements
@@ -168,6 +179,7 @@ function $(selector) {
 			}
 		},
 
+		// Find element
 		find: function (childSelector) {
 			const foundElements = [];
 			elements.forEach((element) => {
@@ -181,6 +193,7 @@ function $(selector) {
 			return $(foundElements);
 		},
 
+		// Append element to selector
 		append: function (content) {
 			elements.forEach((element) => {
 				if (typeof content === "string") {
@@ -192,17 +205,15 @@ function $(selector) {
 			return morefunctions;
 		},
 
+		// Check if selector has class
 		hasClass: function (className) {
-			return (
-				elements.length > 0 && elements[0].classList.contains(className)
-			);
+			return elements.length > 0 && elements[0].classList.contains(className);
 		},
 
+		// Get/Set attribute on selector
 		attr: function (attributeName, value) {
 			if (value === undefined) {
-				return elements.length > 0
-					? elements[0].getAttribute(attributeName)
-					: undefined;
+				return elements.length > 0 ? elements[0].getAttribute(attributeName) : undefined;
 			} else {
 				elements.forEach((element) => {
 					element.setAttribute(attributeName, value);
@@ -211,11 +222,10 @@ function $(selector) {
 			}
 		},
 
+		// Get data attribute from selector
 		data: function (key, value) {
 			if (value === undefined) {
-				return elements.length > 0
-					? elements[0].dataset[key]
-					: undefined;
+				return elements.length > 0 ? elements[0].dataset[key] : undefined;
 			} else {
 				elements.forEach((element) => {
 					element.dataset[key] = value;
@@ -224,6 +234,7 @@ function $(selector) {
 			}
 		},
 
+		// Find sibling elements from selector
 		siblings: function () {
 			const siblingElements = [];
 			elements.forEach((element) => {
@@ -235,6 +246,7 @@ function $(selector) {
 			return $(siblingElements);
 		},
 
+		// Focus on element
 		focus: function () {
 			if (elements.length > 0) {
 				elements[0].focus();
@@ -242,29 +254,25 @@ function $(selector) {
 			return morefunctions;
 		},
 
+		// Insert before content in selector
 		before: function (content) {
 			elements.forEach((element) => {
 				if (typeof content === "string") {
 					element.insertAdjacentHTML("beforebegin", content);
 				} else if (content instanceof HTMLElement) {
-					element.parentNode.insertBefore(
-						content.cloneNode(true),
-						element
-					);
+					element.parentNode.insertBefore(content.cloneNode(true), element);
 				}
 			});
 			return morefunctions;
 		},
 
+		// Insert after content in selector
 		after: function (content) {
 			elements.forEach((element) => {
 				if (typeof content === "string") {
 					element.insertAdjacentHTML("afterend", content);
 				} else if (content instanceof HTMLElement) {
-					element.parentNode.insertBefore(
-						content.cloneNode(true),
-						element.nextSibling
-					);
+					element.parentNode.insertBefore(content.cloneNode(true), element.nextSibling);
 				}
 			});
 			return morefunctions;
@@ -275,15 +283,13 @@ function $(selector) {
 				if (typeof content === "string") {
 					element.outerHTML = content;
 				} else if (content instanceof HTMLElement) {
-					element.parentNode.replaceChild(
-						content.cloneNode(true),
-						element
-					);
+					element.parentNode.replaceChild(content.cloneNode(true), element);
 				}
 			});
 			return morefunctions;
 		},
 
+		// Make inner html empty of selector
 		empty: function () {
 			elements.forEach((element) => {
 				element.innerHTML = "";
@@ -291,6 +297,7 @@ function $(selector) {
 			return morefunctions;
 		},
 
+		// Animate elements
 		animate: function (properties, duration, easing, callback) {
 			elements.forEach((element) => {
 				const initialStyles = getComputedStyle(element);
@@ -307,14 +314,10 @@ function $(selector) {
 					let startTime;
 					function step(timestamp) {
 						if (!startTime) startTime = timestamp;
-						const progress = Math.min(
-							(timestamp - startTime) / duration,
-							1
-						);
+						const progress = Math.min((timestamp - startTime) / duration, 1);
 						const easedProgress = easing(progress);
 
-						element.style[property] =
-							startValue + easedProgress * difference + unit;
+						element.style[property] = startValue + easedProgress * difference + unit;
 
 						if (progress < 1) {
 							requestAnimationFrame(step);
@@ -398,19 +401,9 @@ function $(selector) {
 		slideToggle: function (duration = 400, easing = "swing", callback) {
 			elements.forEach((element) => {
 				if (window.getComputedStyle(element).display === "none") {
-					morefunctions.slideDown.call(
-						element,
-						duration,
-						easing,
-						callback
-					);
+					morefunctions.slideDown.call(element, duration, easing, callback);
 				} else {
-					morefunctions.slideUp.call(
-						element,
-						duration,
-						easing,
-						callback
-					);
+					morefunctions.slideUp.call(element, duration, easing, callback);
 				}
 			});
 			return morefunctions;
@@ -423,9 +416,7 @@ function $(selector) {
 				});
 				return morefunctions;
 			} else {
-				return elements.length > 0
-					? elements[0][propertyName]
-					: undefined;
+				return elements.length > 0 ? elements[0][propertyName] : undefined;
 			}
 		},
 
@@ -443,31 +434,21 @@ function $(selector) {
 		},
 
 		parseInt: function (radix = 10) {
-			return elements.length > 0
-				? parseInt(elements[0].textContent, radix)
-				: NaN;
+			return elements.length > 0 ? parseInt(elements[0].textContent, radix) : NaN;
 		},
 
 		parseStr: function () {
-			return elements.length > 0
-				? parseFloat(elements[0].textContent)
-				: NaN;
+			return elements.length > 0 ? parseFloat(elements[0].textContent) : NaN;
 		},
 
 		replace: function (pattern, replacement) {
 			elements.forEach((element) => {
 				if (element.nodeType === 3) {
 					// Text node
-					element.nodeValue = element.nodeValue.replace(
-						pattern,
-						replacement
-					);
+					element.nodeValue = element.nodeValue.replace(pattern, replacement);
 				} else if (element.nodeType === 1) {
 					// Element node
-					element.textContent = element.textContent.replace(
-						pattern,
-						replacement
-					);
+					element.textContent = element.textContent.replace(pattern, replacement);
 				}
 			});
 			return morefunctions;
@@ -494,10 +475,15 @@ function $(selector) {
 			return morefunctions;
 		},
 
+		// Toggle mute on selector
 		mute: function () {
 			elements.forEach((element) => {
 				if (element instanceof HTMLMediaElement) {
-					element.muted = true;
+					if (element.muted === true) {
+						element.muted = false;
+					} else {
+						element.muted = true;
+					}
 				}
 			});
 			return morefunctions;
@@ -530,8 +516,7 @@ function $(selector) {
 		ready: function (callback) {
 			if (
 				document.readyState === "complete" ||
-				(document.readyState !== "loading" &&
-					!document.documentElement.doScroll)
+				(document.readyState !== "loading" && !document.documentElement.doScroll)
 			) {
 				callback();
 			} else {
@@ -755,9 +740,7 @@ function $(selector) {
 		},
 
 		prev: function () {
-			return elements.length > 0
-				? elements[0].previousElementSibling
-				: undefined;
+			return elements.length > 0 ? elements[0].previousElementSibling : undefined;
 		},
 
 		prevAll: function () {
@@ -789,9 +772,7 @@ function $(selector) {
 		},
 
 		last: function () {
-			return elements.length > 0
-				? elements[elements.length - 1]
-				: undefined;
+			return elements.length > 0 ? elements[elements.length - 1] : undefined;
 		},
 
 		eq: function (index) {
@@ -822,9 +803,7 @@ function $(selector) {
 		},
 
 		split: function (separator) {
-			return elements.length > 0
-				? elements[0].textContent.split(separator)
-				: [];
+			return elements.length > 0 ? elements[0].textContent.split(separator) : [];
 		},
 
 		pop: function () {
@@ -867,10 +846,10 @@ $("#hello")
 	*/
 
 // Function to go to a certain adress
-function goTo(adress) {
+const goTo = (adress) => {
 	// Redirect to an external page
 	window.location.href = adress;
-}
+};
 /* Usage:
 goTo("https://adress.com");
 */
@@ -934,24 +913,14 @@ $("#content").loader("off");
 */
 
 // Function to send XHR JSON faster
-function sendXhr(
-	method,
-	url,
-	data,
-	callback,
-	async = true,
-	contentType = "json"
-) {
+function sendXhr(method, url, data, callback, async = true, contentType = "json") {
 	var xhr = new XMLHttpRequest();
 
 	// Adjust the URL and data based on the request method
 	if (method.toUpperCase() === "GET") {
 		// Append query parameters to the URL
 		const queryString = Object.entries(data)
-			.map(
-				([key, value]) =>
-					`${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-			)
+			.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
 			.join("&");
 		url += `?${queryString}`;
 	} else if (method.toUpperCase() === "POST") {
@@ -1039,14 +1008,11 @@ fetchDataExample();
 */
 
 const generateUUID = () => {
-	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-		/[xy]/g,
-		function (c) {
-			var r = (Math.random() * 16) | 0,
-				v = c == "x" ? r : (r & 0x3) | 0x8;
-			return v.toString(16);
-		}
-	);
+	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+		var r = (Math.random() * 16) | 0,
+			v = c == "x" ? r : (r & 0x3) | 0x8;
+		return v.toString(16);
+	});
 };
 /* Example UUID Generator
 const uuid = generateUUID();
@@ -1054,8 +1020,7 @@ console.log('Generated UUID:', uuid);
 */
 
 const generateRandomId = (length = 8) => {
-	const characters =
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	let randomId = "";
 	for (let i = 0; i < length; i++) {
 		const randomIndex = Math.floor(Math.random() * characters.length);
@@ -1172,8 +1137,7 @@ const isAge = (birthdate, specifiedAge) => {
 	const currentDate = new Date();
 
 	// Calculate the difference in years
-	const ageDifference =
-		currentDate.getFullYear() - birthDateObject.getFullYear();
+	const ageDifference = currentDate.getFullYear() - birthDateObject.getFullYear();
 
 	// Check if the birthday has occurred this year
 	const hasBirthdayOccurred =
@@ -1182,9 +1146,7 @@ const isAge = (birthdate, specifiedAge) => {
 			currentDate.getDate() >= birthDateObject.getDate());
 
 	// Adjust the age based on whether the birthday has occurred
-	const calculatedAge = hasBirthdayOccurred
-		? ageDifference
-		: ageDifference - 1;
+	const calculatedAge = hasBirthdayOccurred ? ageDifference : ageDifference - 1;
 
 	// Check if the specified age matches the calculated age
 	return specifiedAge <= calculatedAge;
@@ -1226,9 +1188,7 @@ const themeSwitcher = (themeStylesheetSelector, themeSwitcherSelector) => {
 	// Handle theme switching and update the cookie
 	themeSwitcher.click(function () {
 		const currentTheme = themeStylesheet.attr("href");
-		const newTheme = currentTheme.endsWith("light.css")
-			? "dark.css"
-			: "light.css";
+		const newTheme = currentTheme.endsWith("light.css") ? "dark.css" : "light.css";
 
 		// Update the href attribute of the stylesheet
 		themeStylesheet.attr("href", themePath + "/" + newTheme);
@@ -1382,8 +1342,7 @@ const variable = getCookie("cookievariable");
 // Function to delete a cookie by name
 const deleteCookie = (name) => {
 	// Set the expiration date of the cookie to a date in the past
-	document.cookie =
-		name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+	document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 };
 /* Usage:
 deleteCookie("cookievariable");
@@ -1688,8 +1647,7 @@ const mouseMenu = (options, targetElement) => {
 		// Add menu items based on options
 		menu.innerHTML = options
 			.map(
-				(option) =>
-					`<div class="menu-item" data-name="${option.name}">${option.name}</div>`
+				(option) => `<div class="menu-item" data-name="${option.name}">${option.name}</div>`
 			)
 			.join("");
 
@@ -1767,9 +1725,7 @@ const getUserInfo = () => {
 
 		// Retrieve IP address (using a third-party service)
 		try {
-			const ipResponse = await fetch(
-				"https://api64.ipify.org?format=json"
-			);
+			const ipResponse = await fetch("https://api64.ipify.org?format=json");
 			const ipData = await ipResponse.json();
 			info.ip = ipData.ip;
 			console.log("IP Address:", info.ip);
@@ -1872,15 +1828,7 @@ const getCurrentMonth = () => {
 
 // Function to get the current day in text
 const getCurrentDay = () => {
-	const days = [
-		"Sunday",
-		"Monday",
-		"Tuesday",
-		"Wednesday",
-		"Thursday",
-		"Friday",
-		"Saturday",
-	];
+	const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 	const currentDayIndex = new Date().getDay();
 	return days[currentDayIndex];
 };
@@ -1912,9 +1860,7 @@ const timeUntilMidnight = () => {
 
 	const timeUntilMidnight = midnight - now;
 	const hours = Math.floor(timeUntilMidnight / (1000 * 60 * 60));
-	const minutes = Math.floor(
-		(timeUntilMidnight % (1000 * 60 * 60)) / (1000 * 60)
-	);
+	const minutes = Math.floor((timeUntilMidnight % (1000 * 60 * 60)) / (1000 * 60));
 	const seconds = Math.floor((timeUntilMidnight % (1000 * 60)) / 1000);
 
 	return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
@@ -2008,9 +1954,7 @@ const hexToRgba = (hex) => {
 	const b = parseHexChannel(hexWithoutHash.substring(4, 6));
 
 	const alpha =
-		hexWithoutHash.length === 8
-			? parseHexChannel(hexWithoutHash.substring(6, 8)) / 255
-			: 1;
+		hexWithoutHash.length === 8 ? parseHexChannel(hexWithoutHash.substring(6, 8)) / 255 : 1;
 
 	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
@@ -2047,8 +1991,7 @@ const mile2meter = (miles) => miles * 1609.344;
 const s2h = (seconds) => seconds / 3600;
 const h2s = (hours) => hours * 3600;
 // Area Calculation for Rectangle
-const rectangleArea = (lengthInMeters, widthInMeters) =>
-	lengthInMeters * widthInMeters;
+const rectangleArea = (lengthInMeters, widthInMeters) => lengthInMeters * widthInMeters;
 /*
 const area = rectangleArea(length, width);
 console.log(`The area of a rectangle with length ${length} meters and width ${width} meters is ${area} square meters`);
@@ -2080,9 +2023,7 @@ round(1.005, 2) //1.01
 round(1.555, 2) //1.56
 */
 
-const isDarkMode =
-	window.matchMedia &&
-	window.matchMedia("(prefers-color-scheme: dark)").matches;
+const isDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 /* Usage
 console.log(isDarkMode) // Result: True or False
 */
@@ -2182,9 +2123,7 @@ function enableDrag(selector, options = {}) {
 		clonedElement.style.cursor = "grab";
 
 		if (options.droppableSelector) {
-			var droppableElement = document.querySelector(
-				options.droppableSelector
-			);
+			var droppableElement = document.querySelector(options.droppableSelector);
 			var rect1 = clonedElement.getBoundingClientRect();
 			var rect2 = droppableElement.getBoundingClientRect();
 
@@ -2199,10 +2138,7 @@ function enableDrag(selector, options = {}) {
 				clonedElement.style.left = 0;
 				clonedElement.style.top = 0;
 				// Swap references between originalContainer and droppableElement
-				[originalContainer, droppableElement] = [
-					droppableElement,
-					originalContainer,
-				];
+				[originalContainer, droppableElement] = [droppableElement, originalContainer];
 				// Log the updated values
 				console.log(
 					"Drag object: ",
